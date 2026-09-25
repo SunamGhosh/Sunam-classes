@@ -1,0 +1,1382 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>User Master Management System</title>
+
+
+    <!-- ================= CSS ================= -->
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            color: #222;
+        }
+
+        .container {
+            width: 95%;
+            max-width: 1300px;
+            margin: 30px auto;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-radius: 10px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .card h2 {
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        input,
+        select {
+            padding: 11px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .form-row input,
+        .form-row select {
+            flex: 1;
+            min-width: 180px;
+        }
+
+        button {
+            padding: 11px 18px;
+            border: none;
+            border-radius: 6px;
+            background: #2563eb;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background: #f1f5f9;
+        }
+
+        .create-user {
+            border-top: 4px solid #16a34a;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .form-grid input,
+        .form-grid select {
+            width: 100%;
+        }
+
+        .create-btn {
+            margin-top: 20px;
+            width: 100%;
+            background: #16a34a;
+        }
+
+        .create-btn:hover {
+            background: #15803d;
+        }
+
+        .empty {
+            text-align: center;
+            color: #777;
+        }
+
+        @media (max-width: 700px) {
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                width: 92%;
+            }
+
+            table {
+                font-size: 13px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+    <h1>User Master Management System</h1>
+
+    <p class="subtitle">
+        Country → State | User Type → User Sub-Type
+    </p>
+
+
+    <!-- ================================================= -->
+    <!-- COUNTRY MASTER -->
+    <!-- ================================================= -->
+
+    <section class="card">
+
+        <h2>🌍 Country Master</h2>
+
+        <div class="form-row">
+
+            <input
+                type="text"
+                id="countryName"
+                placeholder="Country Name"
+            >
+
+            <input
+                type="text"
+                id="countryShortName"
+                placeholder="Short Name"
+            >
+
+            <input
+                type="text"
+                id="countryCode"
+                placeholder="Phone Code"
+            >
+
+            <button onclick="addCountry()">
+                Add Country
+            </button>
+
+        </div>
+
+
+        <table>
+
+            <thead>
+
+                <tr>
+                    <th>ID</th>
+                    <th>Country ID</th>
+                    <th>Country Name</th>
+                    <th>Short Name</th>
+                    <th>Phone Code</th>
+                </tr>
+
+            </thead>
+
+            <tbody id="countryTable"></tbody>
+
+        </table>
+
+    </section>
+
+
+    <!-- ================================================= -->
+    <!-- STATE MASTER -->
+    <!-- ================================================= -->
+
+    <section class="card">
+
+        <h2>State Master</h2>
+
+        <div class="form-row">
+
+            <input
+                type="text"
+                id="stateName"
+                placeholder="State Name"
+            >
+
+            <input
+                type="text"
+                id="stateShortName"
+                placeholder="Short Name"
+            >
+
+            <select id="stateCountry">
+
+                <option value="">
+                    Select Country
+                </option>
+
+            </select>
+
+            <button onclick="addState()">
+                Add State
+            </button>
+
+        </div>
+
+
+        <table>
+
+            <thead>
+
+                <tr>
+                    <th>ID</th>
+                    <th>State ID</th>
+                    <th>State Name</th>
+                    <th>Short Name</th>
+                    <th>Country</th>
+                </tr>
+
+            </thead>
+
+            <tbody id="stateTable"></tbody>
+
+        </table>
+
+    </section>
+
+
+    <!-- ================================================= -->
+    <!-- USER TYPE MASTER -->
+    <!-- ================================================= -->
+
+    <section class="card">
+
+        <h2>👤 User Type Master</h2>
+
+        <div class="form-row">
+
+            <input
+                type="text"
+                id="userTypeName"
+                placeholder="User Type Name"
+            >
+
+            <input
+                type="text"
+                id="userTypeShortName"
+                placeholder="Short Name"
+            >
+
+            <button onclick="addUserType()">
+                Add User Type
+            </button>
+
+        </div>
+
+
+        <table>
+
+            <thead>
+
+                <tr>
+                    <th>ID</th>
+                    <th>User Type ID</th>
+                    <th>Name</th>
+                    <th>Short Name</th>
+                </tr>
+
+            </thead>
+
+            <tbody id="userTypeTable"></tbody>
+
+        </table>
+
+    </section>
+
+
+    <!-- ================================================= -->
+    <!-- USER SUB TYPE MASTER -->
+    <!-- ================================================= -->
+
+    <section class="card">
+
+        <h2>User Sub-Type Master</h2>
+
+        <div class="form-row">
+
+            <input
+                type="text"
+                id="subTypeName"
+                placeholder="Sub-Type Name"
+            >
+
+            <input
+                type="text"
+                id="subTypeCode"
+                placeholder="Sub-Type ID"
+            >
+
+            <select id="subTypeUserType">
+
+                <option value="">
+                    Select User Type
+                </option>
+
+            </select>
+
+            <button onclick="addUserSubType()">
+                Add Sub-Type
+            </button>
+
+        </div>
+
+
+        <table>
+
+            <thead>
+
+                <tr>
+                    <th>ID</th>
+                    <th>Sub-Type ID</th>
+                    <th>Name</th>
+                    <th>Parent User Type</th>
+                </tr>
+
+            </thead>
+
+            <tbody id="userSubTypeTable"></tbody>
+
+        </table>
+
+    </section>
+
+
+    <!-- ================================================= -->
+    <!-- CREATE USER -->
+    <!-- ================================================= -->
+
+    <section class="card create-user">
+
+        <h2>Create User</h2>
+
+
+        <div class="form-grid">
+
+            <input
+                type="text"
+                id="userName"
+                placeholder="Full Name"
+            >
+
+            <input
+                type="email"
+                id="userEmail"
+                placeholder="Email"
+            >
+
+
+            <select
+                id="userCountry"
+                onchange="loadUserStates()">
+
+                <option value="">
+                    Select Country
+                </option>
+
+            </select>
+
+
+            <select id="userState">
+
+                <option value="">
+                    Select State
+                </option>
+
+            </select>
+
+
+            <select
+                id="userType"
+                onchange="loadUserSubTypes()">
+
+                <option value="">
+                    Select User Type
+                </option>
+
+            </select>
+
+
+            <select id="userSubType">
+
+                <option value="">
+                    Select User Sub-Type
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <button
+            class="create-btn"
+            onclick="createUser()">
+
+            Create User
+
+        </button>
+
+    </section>
+
+
+    <!-- ================================================= -->
+    <!-- USERS -->
+    <!-- ================================================= -->
+
+    <section class="card">
+
+        <h2> Users</h2>
+
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Country</th>
+                    <th>State</th>
+                    <th>User Type</th>
+                    <th>Sub-Type</th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody id="usersTable"></tbody>
+
+        </table>
+
+    </section>
+
+
+</div>
+
+
+<!-- ===================================================== -->
+<!-- JAVASCRIPT -->
+<!-- ===================================================== -->
+
+<script>
+
+
+// ========================================================
+// COUNTRY MASTER DATA
+// ========================================================
+
+let countries = [
+
+    {
+        id: 1,
+        countryId: "C1",
+        name: "India",
+        shortName: "IND",
+        code: "+91"
+    },
+
+    {
+        id: 2,
+        countryId: "C2",
+        name: "USA",
+        shortName: "USA",
+        code: "+1"
+    }
+
+];
+
+
+// ========================================================
+// STATE MASTER DATA
+// ========================================================
+
+let states = [
+
+    {
+        id: 1,
+        stateId: "ST1",
+        name: "Jharkhand",
+        shortName: "JH",
+        countryId: "C1"
+    },
+
+    {
+        id: 2,
+        stateId: "ST2",
+        name: "Bihar",
+        shortName: "BR",
+        countryId: "C1"
+    },
+
+    {
+        id: 3,
+        stateId: "ST3",
+        name: "West Bengal",
+        shortName: "WB",
+        countryId: "C1"
+    },
+
+    {
+        id: 4,
+        stateId: "ST4",
+        name: "California",
+        shortName: "CA",
+        countryId: "C2"
+    }
+
+];
+
+
+// ========================================================
+// USER TYPE MASTER
+// ========================================================
+
+let userTypes = [
+
+    {
+        id: 1,
+        typeId: "S1",
+        name: "Student",
+        shortName: "ST"
+    },
+
+    {
+        id: 2,
+        typeId: "P1",
+        name: "Professional",
+        shortName: "PRO"
+    },
+
+    {
+        id: 3,
+        typeId: "H1",
+        name: "Housewife",
+        shortName: "HWF"
+    },
+
+    {
+        id: 4,
+        typeId: "B1",
+        name: "Businessman",
+        shortName: "BSM"
+    }
+
+];
+
+
+// ========================================================
+// USER SUB-TYPE MASTER
+// ========================================================
+
+let userSubTypes = [
+
+    {
+        id: 1,
+        subTypeId: "S11",
+        name: "School Student",
+        userTypeId: "S1"
+    },
+
+    {
+        id: 2,
+        subTypeId: "S12",
+        name: "College Student",
+        userTypeId: "S1"
+    },
+
+    {
+        id: 3,
+        subTypeId: "P11",
+        name: "Engineer",
+        userTypeId: "P1"
+    },
+
+    {
+        id: 4,
+        subTypeId: "P12",
+        name: "Doctor",
+        userTypeId: "P1"
+    },
+
+    {
+        id: 5,
+        subTypeId: "P13",
+        name: "Teacher",
+        userTypeId: "P1"
+    }
+
+];
+
+
+// ========================================================
+// USERS
+// ========================================================
+
+let users = [];
+
+
+// ========================================================
+// ADD COUNTRY
+// ========================================================
+
+function addCountry() {
+
+    const name =
+        document.getElementById("countryName").value.trim();
+
+    const shortName =
+        document.getElementById("countryShortName").value.trim();
+
+    const code =
+        document.getElementById("countryCode").value.trim();
+
+
+    if (!name || !shortName || !code) {
+
+        alert("Please fill all country fields.");
+
+        return;
+    }
+
+
+    const newId = countries.length + 1;
+
+
+    countries.push({
+
+        id: newId,
+
+        countryId: "C" + newId,
+
+        name: name,
+
+        shortName: shortName,
+
+        code: code
+
+    });
+
+
+    document.getElementById("countryName").value = "";
+
+    document.getElementById("countryShortName").value = "";
+
+    document.getElementById("countryCode").value = "";
+
+
+    renderCountries();
+
+    loadCountryDropdowns();
+
+}
+
+
+// ========================================================
+// DISPLAY COUNTRIES
+// ========================================================
+
+function renderCountries() {
+
+    const table =
+        document.getElementById("countryTable");
+
+
+    table.innerHTML = "";
+
+
+    countries.forEach(country => {
+
+        table.innerHTML += `
+
+            <tr>
+
+                <td>${country.id}</td>
+
+                <td>${country.countryId}</td>
+
+                <td>${country.name}</td>
+
+                <td>${country.shortName}</td>
+
+                <td>${country.code}</td>
+
+            </tr>
+
+        `;
+
+    });
+
+}
+
+
+// ========================================================
+// COUNTRY DROPDOWNS
+// ========================================================
+
+function loadCountryDropdowns() {
+
+    const stateCountry =
+        document.getElementById("stateCountry");
+
+    const userCountry =
+        document.getElementById("userCountry");
+
+
+    stateCountry.innerHTML =
+        `<option value="">Select Country</option>`;
+
+    userCountry.innerHTML =
+        `<option value="">Select Country</option>`;
+
+
+    countries.forEach(country => {
+
+        stateCountry.innerHTML += `
+
+            <option value="${country.countryId}">
+
+                ${country.name}
+
+            </option>
+
+        `;
+
+
+        userCountry.innerHTML += `
+
+            <option value="${country.countryId}">
+
+                ${country.name}
+
+            </option>
+
+        `;
+
+    });
+
+}
+
+
+// ========================================================
+// ADD STATE
+// ========================================================
+
+function addState() {
+
+    const name =
+        document.getElementById("stateName").value.trim();
+
+    const shortName =
+        document.getElementById("stateShortName").value.trim();
+
+    const countryId =
+        document.getElementById("stateCountry").value;
+
+
+    if (!name || !shortName || !countryId) {
+
+        alert("Please fill all state fields.");
+
+        return;
+    }
+
+
+    const newId = states.length + 1;
+
+
+    states.push({
+
+        id: newId,
+
+        stateId: "ST" + newId,
+
+        name: name,
+
+        shortName: shortName,
+
+        countryId: countryId
+
+    });
+
+
+    document.getElementById("stateName").value = "";
+
+    document.getElementById("stateShortName").value = "";
+
+
+    renderStates();
+
+}
+
+
+// ========================================================
+// DISPLAY STATES
+// ========================================================
+
+function renderStates() {
+
+    const table =
+        document.getElementById("stateTable");
+
+
+    table.innerHTML = "";
+
+
+    states.forEach(state => {
+
+        const country =
+            countries.find(
+                country =>
+                country.countryId === state.countryId
+            );
+
+
+        table.innerHTML += `
+
+            <tr>
+
+                <td>${state.id}</td>
+
+                <td>${state.stateId}</td>
+
+                <td>${state.name}</td>
+
+                <td>${state.shortName}</td>
+
+                <td>${country.name}</td>
+
+            </tr>
+
+        `;
+
+    });
+
+}
+
+
+// ========================================================
+// ADD USER TYPE
+// ========================================================
+
+function addUserType() {
+
+    const name =
+        document.getElementById("userTypeName").value.trim();
+
+    const shortName =
+        document.getElementById("userTypeShortName").value.trim();
+
+
+    if (!name || !shortName) {
+
+        alert("Please fill all user type fields.");
+
+        return;
+    }
+
+
+    const newId = userTypes.length + 1;
+
+
+    userTypes.push({
+
+        id: newId,
+
+        typeId: "T" + newId,
+
+        name: name,
+
+        shortName: shortName
+
+    });
+
+
+    document.getElementById("userTypeName").value = "";
+
+    document.getElementById("userTypeShortName").value = "";
+
+
+    renderUserTypes();
+
+    loadUserTypeDropdowns();
+
+}
+
+
+// ========================================================
+// DISPLAY USER TYPES
+// ========================================================
+
+function renderUserTypes() {
+
+    const table =
+        document.getElementById("userTypeTable");
+
+
+    table.innerHTML = "";
+
+
+    userTypes.forEach(type => {
+
+        table.innerHTML += `
+
+            <tr>
+
+                <td>${type.id}</td>
+
+                <td>${type.typeId}</td>
+
+                <td>${type.name}</td>
+
+                <td>${type.shortName}</td>
+
+            </tr>
+
+        `;
+
+    });
+
+}
+
+
+// ========================================================
+// USER TYPE DROPDOWNS
+// ========================================================
+
+function loadUserTypeDropdowns() {
+
+    const subTypeUserType =
+        document.getElementById("subTypeUserType");
+
+    const userType =
+        document.getElementById("userType");
+
+
+    subTypeUserType.innerHTML =
+        `<option value="">Select User Type</option>`;
+
+    userType.innerHTML =
+        `<option value="">Select User Type</option>`;
+
+
+    userTypes.forEach(type => {
+
+        subTypeUserType.innerHTML += `
+
+            <option value="${type.typeId}">
+
+                ${type.name}
+
+            </option>
+
+        `;
+
+
+        userType.innerHTML += `
+
+            <option value="${type.typeId}">
+
+                ${type.name}
+
+            </option>
+
+        `;
+
+    });
+
+}
+
+
+// ========================================================
+// ADD USER SUB-TYPE
+// ========================================================
+
+function addUserSubType() {
+
+    const name =
+        document.getElementById("subTypeName").value.trim();
+
+    const subTypeId =
+        document.getElementById("subTypeCode").value.trim();
+
+    const userTypeId =
+        document.getElementById("subTypeUserType").value;
+
+
+    if (!name || !subTypeId || !userTypeId) {
+
+        alert("Please fill all sub-type fields.");
+
+        return;
+    }
+
+
+    const newId = userSubTypes.length + 1;
+
+
+    userSubTypes.push({
+
+        id: newId,
+
+        subTypeId: subTypeId,
+
+        name: name,
+
+        userTypeId: userTypeId
+
+    });
+
+
+    document.getElementById("subTypeName").value = "";
+
+    document.getElementById("subTypeCode").value = "";
+
+
+    renderUserSubTypes();
+
+}
+
+
+// ========================================================
+// DISPLAY USER SUB-TYPES
+// ========================================================
+
+function renderUserSubTypes() {
+
+    const table =
+        document.getElementById("userSubTypeTable");
+
+
+    table.innerHTML = "";
+
+
+    userSubTypes.forEach(subType => {
+
+        const type =
+            userTypes.find(
+                type =>
+                type.typeId === subType.userTypeId
+            );
+
+
+        table.innerHTML += `
+
+            <tr>
+
+                <td>${subType.id}</td>
+
+                <td>${subType.subTypeId}</td>
+
+                <td>${subType.name}</td>
+
+                <td>${type.name}</td>
+
+            </tr>
+
+        `;
+
+    });
+
+}
+
+
+// ========================================================
+// LOAD STATES WHEN COUNTRY CHANGES
+// ========================================================
+
+function loadUserStates() {
+
+    const countryId =
+        document.getElementById("userCountry").value;
+
+
+    const stateDropdown =
+        document.getElementById("userState");
+
+
+    stateDropdown.innerHTML =
+        `<option value="">Select State</option>`;
+
+
+    const filteredStates =
+        states.filter(
+            state =>
+            state.countryId === countryId
+        );
+
+
+    filteredStates.forEach(state => {
+
+        stateDropdown.innerHTML += `
+
+            <option value="${state.stateId}">
+
+                ${state.name}
+
+            </option>
+
+        `;
+
+    });
+
+}
+
+
+// ========================================================
+// LOAD SUB-TYPES WHEN USER TYPE CHANGES
+// ========================================================
+
+function loadUserSubTypes() {
+
+    const userTypeId =
+        document.getElementById("userType").value;
+
+
+    const subTypeDropdown =
+        document.getElementById("userSubType");
+
+
+    subTypeDropdown.innerHTML =
+        `<option value="">Select User Sub-Type</option>`;
+
+
+    const filteredSubTypes =
+        userSubTypes.filter(
+            subType =>
+            subType.userTypeId === userTypeId
+        );
+
+
+    filteredSubTypes.forEach(subType => {
+
+        subTypeDropdown.innerHTML += `
+
+            <option value="${subType.subTypeId}">
+
+                ${subType.name}
+
+            </option>
+
+        `;
+
+    });
+
+}
+
+
+// ========================================================
+// CREATE USER
+// ========================================================
+
+function createUser() {
+
+    const name =
+        document.getElementById("userName").value.trim();
+
+    const email =
+        document.getElementById("userEmail").value.trim();
+
+    const countryId =
+        document.getElementById("userCountry").value;
+
+    const stateId =
+        document.getElementById("userState").value;
+
+    const userTypeId =
+        document.getElementById("userType").value;
+
+    const userSubTypeId =
+        document.getElementById("userSubType").value;
+
+
+    if (
+        !name ||
+        !email ||
+        !countryId ||
+        !stateId ||
+        !userTypeId ||
+        !userSubTypeId
+    ) {
+
+        alert("Please fill all user fields.");
+
+        return;
+    }
+
+
+    users.push({
+
+        id: users.length + 1,
+
+        name: name,
+
+        email: email,
+
+        countryId: countryId,
+
+        stateId: stateId,
+
+        userTypeId: userTypeId,
+
+        userSubTypeId: userSubTypeId
+
+    });
+
+
+    document.getElementById("userName").value = "";
+
+    document.getElementById("userEmail").value = "";
+
+
+    renderUsers();
+
+
+    alert("User created successfully!");
+
+}
+
+
+// ========================================================
+// DISPLAY USERS
+// ========================================================
+
+function renderUsers() {
+
+    const table =
+        document.getElementById("usersTable");
+
+
+    table.innerHTML = "";
+
+
+    users.forEach(user => {
+
+
+        const country =
+            countries.find(
+                country =>
+                country.countryId === user.countryId
+            );
+
+
+        const state =
+            states.find(
+                state =>
+                state.stateId === user.stateId
+            );
+
+
+        const type =
+            userTypes.find(
+                type =>
+                type.typeId === user.userTypeId
+            );
+
+
+        const subType =
+            userSubTypes.find(
+                subType =>
+                subType.subTypeId === user.userSubTypeId
+            );
+
+
+        table.innerHTML += `
+
+            <tr>
+
+                <td>${user.id}</td>
+
+                <td>${user.name}</td>
+
+                <td>${user.email}</td>
+
+                <td>${country.name}</td>
+
+                <td>${state.name}</td>
+
+                <td>${type.name}</td>
+
+                <td>${subType.name}</td>
+
+            </tr>
+
+        `;
+
+    });
+
+}
+
+
+// ========================================================
+// INITIALIZE APPLICATION
+// ========================================================
+
+renderCountries();
+
+renderStates();
+
+renderUserTypes();
+
+renderUserSubTypes();
+
+loadCountryDropdowns();
+
+loadUserTypeDropdowns();
+
+
+</script>
+
+</body>
+
+</html>
